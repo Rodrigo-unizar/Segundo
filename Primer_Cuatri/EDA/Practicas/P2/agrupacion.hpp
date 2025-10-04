@@ -103,7 +103,7 @@ bool vacia(const agrupacion<T>& a) {
 template<typename T>
 void borrarUltimo(agrupacion<T>& a) {
     // COMPLETAR IMPLEMENTACION
-    if(!vacia(T)){a.total --;}
+    if(!vacia(a)){a.total --;}
     return;
 }
 
@@ -112,7 +112,7 @@ template<typename T>
 bool esta(const agrupacion<T>& a, const T& e) {
     // COMPLETAR IMPLEMENTACION (USANDO LA FUNCION == DEL TIPO T)
     for(int i = 0; i < a.total; i++){
-        if(a.dato[i] == e){
+        if(a.datos[i] == e){
             return true;
         }
     }

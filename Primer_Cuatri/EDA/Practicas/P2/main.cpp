@@ -1,13 +1,15 @@
 #include <IOstream>
 
-#include "agenda.hpp"
+#include "agrupacion.hpp"
 #include "contacto.hpp"
-
+#include "producto.hpp"
 
 using namespace std;
 
 int main(){
-    agenda a;
+
+    agrupacion<contacto> agenda;
+    agrupacion<producto> prod;
     contacto c[6];
     string nombres[6] = {"Maria", "Juan", "Jaime", "Isma", "Rodri", "Belen"};
     string direcciones[6] = {"C/Alfajerias","C/De todos los Santos","C/Maria de Luna","C/Sol y Luna","C/Gayarre","C/Del Porvenir"};
@@ -15,16 +17,17 @@ int main(){
     string nombreAbuscar;
 
 
-    iniciar(a);
-    iniciarIt(a);
+    iniciar(agenda);
     for(int i = 0; i < 6; i++){
         crear(nombres[i], direcciones[i], numerosTlf[i], c[i]);
-        anyadir(a, c[i]);
+        anyadir(agenda, c[i]);
     }
     cout << endl;
     contacto cRec;
-    while(existeSig(a)){
-        siguienteYavanza(a, cRec);
+
+    iniciarIt(agenda);
+    while(existeSig(agenda)){
+        siguienteYavanza(agenda, cRec);
         cout << "Este es el contacto de: " << nombre(cRec) << ". Con direccion: " << direccion(cRec) << " y numero de Telefono: " << telefono(cRec) << endl;   
     }
     cout << endl;
@@ -32,16 +35,11 @@ int main(){
     cin >> nombreAbuscar;
 
     contacto aBuscar;
-    crear(nombreAbuscar, "", 0, aBuscar);
-    if(esta(a, aBuscar)){
-        cout << nombreAbuscar << " si que pertenece a tu lista de contactos." << endl;
-    }else{
-        cout << nombreAbuscar << " no pertenece a tu lista de contactos." << endl;
-    }
 
-    borrarUltimo(a);
-    while(existeSig(a)){
-        siguienteYavanza(a, cRec);
+    borrarUltimo(agenda);
+    iniciarIt(agenda);
+    while(existeSig(agenda)){
+        siguienteYavanza(agenda, cRec);
         cout << "Este es el contacto de: " << nombre(cRec) << ". Con direccion: " << direccion(cRec) << " y numero de Telefono: " << telefono(cRec) << endl;   
     }
 
@@ -49,11 +47,10 @@ int main(){
     cin >> nombreAbuscar;
 
     crear(nombreAbuscar, "", 0, aBuscar);
-    if(esta(a, aBuscar)){
+    if(esta(agenda, aBuscar)){
         cout << nombreAbuscar << " si que pertenece a tu lista de contactos." << endl;
     }else{
         cout << nombreAbuscar << " no pertenece a tu lista de contactos." << endl;
     }
-
 
 }
