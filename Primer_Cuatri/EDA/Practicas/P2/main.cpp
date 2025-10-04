@@ -9,7 +9,7 @@ using namespace std;
 int main(){
 
     agrupacion<contacto> agenda;
-    agrupacion<producto> prod;
+    agrupacion<producto> cesta;
     contacto c[6];
     string nombres[6] = {"Maria", "Juan", "Jaime", "Isma", "Rodri", "Belen"};
     string direcciones[6] = {"C/Alfajerias","C/De todos los Santos","C/Maria de Luna","C/Sol y Luna","C/Gayarre","C/Del Porvenir"};
@@ -32,8 +32,6 @@ int main(){
     }
     cout << endl;
 
-    cin >> nombreAbuscar;
-
     contacto aBuscar;
 
     borrarUltimo(agenda);
@@ -52,5 +50,30 @@ int main(){
     }else{
         cout << nombreAbuscar << " no pertenece a tu lista de contactos." << endl;
     }
+
+    iniciar(cesta);
+    producto prod[6];
+    string nombres_prod[6] = {"Manzana","Pasta de dientes","Peras","Lechugas","Tomates","Cebollas"};
+    int cantidades[6] = {12,2,3,45,67,12};
+    for(int i = 0; i < 6;i++){
+        crear(nombres_prod[i], cantidades[i], prod[i]);
+        anyadir(cesta, prod[i]);
+    }
+    producto pRec; //producto "obtenido"
+    iniciarIt(cesta);
+    while(existeSig(cesta)){
+        siguienteYavanza(cesta, pRec);
+        cout << "Tienes en la cesta " << nombre(pRec) << ". Y tienes que comprar " << cantidad(pRec) << " articulos. " << endl;   
+    }
+    cout << endl;
+
+    borrarUltimo(cesta);
+    
+    iniciarIt(cesta);
+    while(existeSig(cesta)){
+        siguienteYavanza(cesta, pRec);
+        cout << "Tienes en la cesta " << nombre(pRec) << ". Y tienes que comprar " << cantidad(pRec) << " articulos. " << endl;   
+    }
+
 
 }
