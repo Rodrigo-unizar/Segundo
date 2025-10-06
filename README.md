@@ -5,6 +5,7 @@
 ![Universidad de Zaragoza](https://img.shields.io/badge/Universidad%20de%20Zaragoza-blue?style=for-the-badge)
 ![Curso](https://img.shields.io/badge/Curso-2º%20de%20Ingenier%C3%ADa%20Inform%C3%A1tica-green?style=for-the-badge)
 ![Estado](https://img.shields.io/badge/Estado-En%20progreso-yellow?style=for-the-badge)
+![Practicas EDA con Compañero](https://github.com/Rodrigo-unizar/PracEDA.git)
 
 ---
 
