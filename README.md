@@ -35,6 +35,11 @@ Centralizar **todo el material académico y práctico** de segundo de carrera:
 > ⚙️ *Las asignaturas pueden variar según el itinerario o el año académico. Este listado sigue el plan general del Grado en Ingeniería Informática (Plan 439 – EINA, Unizar).*
 
 ---
+
+## Trabajos en grupo
+- [Practicas EDA con Compañero](https://github.com/Rodrigo-unizar/PracEDA.git)
+
+---
 ## 🧰 Tecnologías y herramientas comunes
 | Herramienta         | Uso principal                             |
 | ------------------- | ----------------------------------------- |
@@ -42,6 +47,10 @@ Centralizar **todo el material académico y práctico** de segundo de carrera:
 | ⚙️ Bash / Shell     | Scripts y compilación                     |
 | ☁️ Git & GitHub     | Control de versiones y colaboración       |
 | 📝 Markdown / LaTeX | Apuntes y documentación                   |
+
+
+---
+
 
 ## 📫 Contacto
 
