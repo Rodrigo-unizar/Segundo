@@ -1,11 +1,11 @@
 /**
- * @file servidorvocalesTCP.c
+ * @file servidorvocalesUDP.c
  *
- * Programa *servidorvocalesTCP* que cuenta vocales.
+ * Programa *servidorvocalesUDP* que cuenta vocales.
  *
- * Uso: servidorvocalesTCP puerto
+ * Uso: servidorvocalesUDP puerto
  *
- * El programa crea un socket TCP en el puerto especificado, lo pone en modo
+ * El programa crea un socket UDP en el puerto especificado, lo pone en modo
  * escucha y atiende consecutivamente a los clientes que se van conectando.
  * Para cada cliente, recibe cadenas de texto, cuenta las vocales contenidas
  * y al acabar todas las recepciones envía al cliente el número total de
@@ -29,7 +29,7 @@ const char fin = '4';
 
 
 /**
- * Función que crea el socket TCP y espera conexiones entrantes.
+ * Función que crea el socket UDP y espera conexiones entrantes.
  *
  * @param servinfo Estructura de dirección local.
  * @param f_verbose Flag.
