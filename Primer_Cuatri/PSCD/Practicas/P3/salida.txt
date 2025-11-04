@@ -1,0 +1,2031 @@
+t1
+t3
+t1
+t1
+t1
+t2
+t1
+t2
+t1
+t3
+exec t1 
+exec t1 
+exec t1 
+t1
+exec t1 
+exec t1 
+exec t1 
+t3
+t3
+t1
+t2
+t3
+exec t2 
+exec t2 
+t3
+t3
+exec t3 
+exec t1 
+exec t1 
+t1
+exec t3 
+t3
+t3
+t1
+exec t1 
+exec t3 
+exec t1 
+t3
+exec t2 
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+t3
+t3
+t1
+t3
+t2
+t2
+t1
+exec t1 
+t2
+exec t3 
+exec t1 
+exec t3 
+t1
+t2
+exec t2 
+t3
+exec t3 
+t2
+t1
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t3
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t3 
+t2
+t1
+exec t1 
+t3
+t2
+exec t2 
+t2
+t3
+exec t3 
+t3
+exec t3 
+t3
+exec t3 
+t1
+exec t1 
+t3
+t2
+t1
+t1
+t1
+t2
+exec t2 
+exec t1 
+exec t1 
+exec t1 
+t2
+t3
+t1
+t2
+exec t2 
+exec t2 
+exec t3 
+exec t2 
+t3
+exec t3 
+t3
+t3
+exec t2 
+t2
+t1
+t1
+exec t1 
+t3
+exec t2 
+exec t1 
+exec t2 
+exec t1 
+exec t3 
+t3
+t2
+t1
+t1
+t3
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+t1
+t1
+t1
+t2
+t3
+t3
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+exec t3 
+exec t3 
+t2
+t1
+t1
+t1
+t1
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+exec t2 
+t3
+t1
+t3
+t1
+t1
+t1
+t3
+t2
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+exec t1 
+t3
+t3
+t3
+t2
+exec t2 
+t3
+t2
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+exec t2 
+t3
+t2
+t2
+t2
+t3
+exec t3 
+t3
+exec t2 
+t3
+exec t2 
+exec t2 
+t2
+exec t2 
+exec t2 
+t1
+t1
+t2
+exec t2 
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+t1
+t3
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+t3
+exec t3 
+exec t3 
+t2
+exec t2 
+t1
+t2
+t3
+exec t3 
+t3
+t1
+t3
+t1
+t3
+t3
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+t3
+exec t3 
+t3
+t2
+t1
+t2
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+exec t3 
+t3
+t3
+t2
+t3
+t2
+t3
+t2
+exec t2 
+exec t3 
+exec t2 
+t2
+t1
+t1
+exec t3 
+exec t1 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+exec t3 
+t1
+t3
+t3
+t1
+t3
+t2
+t1
+t1
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+t3
+t3
+t3
+t3
+t2
+exec t3 
+exec t2 
+exec t3 
+exec t3 
+exec t2 
+t3
+t2
+t1
+t1
+t3
+exec t1 
+exec t2 
+exec t1 
+exec t3 
+t2
+exec t3 
+exec t3 
+exec t3 
+t1
+t3
+t3
+t3
+t2
+t1
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t3
+t1
+t3
+t1
+t3
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+t2
+exec t3 
+exec t2 
+exec t2 
+t2
+t2
+t2
+t1
+t2
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+t3
+t2
+t2
+t1
+t2
+exec t2 
+exec t2 
+exec t2 
+t3
+exec t1 
+t2
+t2
+t2
+exec t2 
+t1
+exec t2 
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t3
+t2
+t3
+t2
+t1
+t2
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t2
+t1
+t2
+t2
+t1
+exec t2 
+t3
+exec t2 
+t1
+exec t1 
+exec t2 
+t3
+t3
+exec t3 
+t1
+exec t1 
+t1
+exec t2 
+exec t2 
+exec t2 
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+t1
+t2
+t1
+exec t1 
+t3
+t1
+t2
+t1
+t3
+exec t3 
+t3
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t3 
+exec t1 
+t2
+exec t2 
+t3
+exec t3 
+t2
+t3
+exec t3 
+t2
+exec t2 
+t3
+t1
+t2
+t1
+t3
+exec t3 
+t3
+exec t3 
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t3 
+t3
+exec t3 
+exec t2 
+exec t2 
+t2
+t2
+exec t2 
+t1
+t2
+exec t2 
+t2
+exec t2 
+t3
+exec t3 
+t1
+t1
+t1
+t3
+exec t3 
+t1
+t1
+exec t1 
+exec t1 
+exec t3 
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t3
+t3
+t2
+t2
+exec t2 
+t1
+t3
+t3
+exec t3 
+t1
+t2
+t3
+exec t1 
+exec t2 
+t2
+exec t1 
+t1
+t2
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t1
+t1
+t2
+t3
+t3
+t2
+exec t2 
+t3
+t2
+t1
+exec t1 
+t2
+exec t2 
+exec t1 
+exec t2 
+exec t1 
+t1
+t3
+t2
+t2
+exec t3 
+exec t3 
+exec t3 
+exec t2 
+exec t1 
+exec t2 
+exec t2 
+t3
+t2
+t1
+t1
+t1
+t2
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t2
+t3
+t3
+t1
+t1
+t2
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t3
+t1
+t3
+t3
+t1
+t1
+exec t2 
+exec t1 
+t3
+exec t1 
+exec t1 
+t2
+t2
+exec t2 
+t2
+t2
+exec t3 
+t3
+exec t3 
+t2
+exec t3 
+exec t3 
+exec t3 
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+t2
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+t3
+t3
+t1
+t2
+t1
+t2
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+t2
+exec t1 
+exec t1 
+t1
+t3
+t2
+t2
+exec t3 
+exec t2 
+exec t1 
+exec t3 
+t1
+exec t2 
+exec t2 
+t3
+t2
+t1
+t3
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t1
+t2
+t2
+t2
+t1
+t3
+t3
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+t2
+exec t2 
+t1
+t1
+t2
+t2
+exec t2 
+t3
+exec t2 
+t2
+exec t2 
+t2
+exec t2 
+exec t2 
+exec t2 
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+t2
+t2
+t2
+t2
+t3
+t2
+t1
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t2
+t3
+t2
+t1
+exec t2 
+exec t3 
+exec t1 
+t3
+t3
+t1
+exec t2 
+exec t2 
+exec t2 
+t3
+exec t2 
+t2
+t3
+t3
+exec t3 
+exec t2 
+exec t1 
+exec t2 
+t2
+t1
+t2
+t2
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+exec t2 
+t1
+t1
+t2
+t1
+t1
+t2
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t3
+t2
+t1
+t2
+t1
+t2
+exec t2 
+t3
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t2
+t2
+t3
+t2
+t3
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t2
+t3
+t3
+t3
+t1
+exec t1 
+exec t3 
+exec t3 
+t2
+exec t2 
+exec t2 
+exec t2 
+t2
+t2
+t3
+t3
+t3
+exec t3 
+exec t2 
+exec t3 
+exec t3 
+t3
+exec t3 
+t2
+t2
+t1
+t3
+exec t3 
+exec t3 
+exec t1 
+t3
+exec t2 
+exec t3 
+exec t2 
+exec t2 
+t1
+t2
+t1
+exec t1 
+t2
+t1
+exec t1 
+t2
+t1
+t2
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t1
+t1
+t2
+t3
+t3
+exec t3 
+t1
+exec t1 
+exec t1 
+exec t1 
+t1
+t2
+t1
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+exec t3 
+t1
+t3
+exec t3 
+t3
+t2
+t1
+t1
+exec t2 
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+t3
+t1
+t2
+exec t2 
+t2
+t1
+t2
+t2
+t3
+exec t2 
+exec t2 
+t2
+exec t2 
+t3
+t2
+exec t2 
+t2
+exec t2 
+exec t3 
+exec t2 
+exec t2 
+exec t1 
+t1
+t2
+t2
+t1
+exec t1 
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t2 
+t3
+t3
+t1
+t2
+exec t2 
+t1
+t2
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+t1
+exec t1 
+exec t2 
+exec t2 
+t2
+t3
+t1
+t1
+t2
+t1
+exec t1 
+exec t1 
+exec t3 
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t1
+t1
+t3
+t1
+t1
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+t2
+exec t2 
+exec t3 
+exec t2 
+t2
+t2
+t1
+exec t1 
+t2
+t1
+t2
+t1
+t1
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+t3
+t2
+t3
+t2
+t1
+exec t2 
+exec t2 
+exec t1 
+exec t2 
+t3
+exec t2 
+exec t2 
+t1
+t1
+t2
+t3
+t1
+exec t1 
+exec t2 
+exec t1 
+t3
+exec t2 
+exec t1 
+t3
+t3
+t3
+t2
+exec t3 
+t3
+exec t3 
+t3
+exec t3 
+exec t3 
+exec t2 
+t2
+t1
+t1
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+exec t3 
+t3
+t2
+t1
+t2
+t2
+t1
+t3
+t1
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+t2
+t3
+t1
+t2
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t2 
+t1
+exec t2 
+exec t2 
+t1
+t2
+t2
+t1
+t1
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+t2
+exec t3 
+exec t2 
+exec t2 
+t1
+t2
+t1
+t1
+t3
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t3
+t2
+t1
+t2
+t1
+t3
+t2
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t1
+t2
+t1
+t2
+t2
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t1
+t2
+t2
+t1
+t2
+t2
+t1
+exec t2 
+t3
+exec t2 
+exec t2 
+t2
+t1
+exec t2 
+t3
+exec t2 
+exec t2 
+exec t2 
+exec t1 
+t2
+t1
+exec t1 
+t2
+t1
+t3
+exec t1 
+t2
+exec t1 
+t1
+exec t1 
+exec t1 
+exec t1 
+t2
+exec t3 
+exec t2 
+t2
+t3
+t2
+t1
+exec t3 
+exec t1 
+exec t3 
+t1
+exec t2 
+exec t2 
+exec t2 
+t3
+t2
+t3
+t1
+t2
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t1
+t1
+t2
+t2
+t2
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t1
+t3
+t2
+t3
+t3
+t3
+t1
+exec t1 
+exec t2 
+exec t1 
+exec t2 
+t1
+exec t2 
+t3
+t1
+t2
+t1
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t2
+t1
+t2
+t1
+t3
+t1
+t2
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t3
+t3
+t2
+t3
+t3
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t3
+t1
+t2
+t3
+t1
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+t3
+t1
+t2
+t2
+t3
+t2
+t2
+exec t3 
+exec t3 
+exec t1 
+t1
+exec t2 
+t3
+t2
+t2
+exec t3 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+t2
+t1
+t1
+t1
+t2
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+t3
+exec t3 
+exec t2 
+exec t2 
+t1
+t1
+t3
+t2
+t2
+t1
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+t3
+exec t2 
+t2
+t2
+t1
+t1
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t3
+exec t3 
+t3
+t3
+t2
+t2
+t2
+t2
+t2
+exec t2 
+exec t2 
+exec t3 
+t3
+t1
+t2
+exec t1 
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+t1
+t3
+t3
+t3
+exec t3 
+t3
+t1
+t3
+t3
+t2
+exec t2 
+exec t1 
+t2
+exec t3 
+t2
+t2
+exec t1 
+t1
+exec t3 
+exec t2 
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+t1
+exec t3 
+t3
+t3
+t1
+t1
+t2
+t2
+exec t1 
+exec t2 
+exec t1 
+exec t1 
+t2
+exec t2 
+exec t2 
+t3
+t1
+t3
+exec t3 
+t1
+t2
+t1
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+t1
+exec t2 
+exec t3 
+exec t2 
+t3
+exec t3 
+t2
+t1
+t3
+t2
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t2
+t2
+t1
+t2
+t3
+t1
+t3
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t3
+t1
+t2
+t2
+exec t2 
+t2
+t2
+exec t3 
+exec t1 
+exec t2 
+exec t3 
+exec t2 
+t2
+exec t2 
+t3
+t1
+t1
+t3
+t3
+exec t1 
+exec t1 
+t2
+t2
+exec t3 
+t2
+exec t2 
+t1
+exec t2 
+t2
+exec t2 
+t2
+exec t3 
+exec t3 
+t3
+t3
+exec t3 
+t1
+exec t1 
+t3
+exec t2 
+t3
+exec t3 
+t3
+exec t1 
+exec t2 
+exec t2 
+t3
+exec t2 
+exec t2 
+exec t2 
+t3
+t2
+t2
+t2
+exec t2 
+t3
+t3
+exec t3 
+exec t3 
+exec t3 
+exec t3 
+t1
+t1
+t2
+t3
+exec t3 
+exec t3 
+exec t3 
+t2
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t1
+t1
+t1
+t1
+t2
+t3
+exec t3 
+t3
+t3
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t3
+t2
+t1
+t3
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+t3
+t1
+t1
+t3
+exec t3 
+t2
+t2
+t2
+t3
+exec t3 
+t1
+exec t2 
+exec t1 
+exec t1 
+t1
+exec t1 
+exec t3 
+exec t3 
+t1
+exec t1 
+t2
+t3
+t3
+exec t3 
+t1
+t2
+t1
+exec t2 
+t2
+exec t2 
+exec t2 
+exec t2 
+exec t1 
+exec t1 
+t3
+exec t3 
+t1
+t2
+t1
+t3
+t2
+exec t1 
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t1 
+t1
+t1
+exec t2 
+t3
+exec t3 
+t2
+t2
+exec t2 
+t3
+exec t3 
+t3
+exec t3 
+t1
+t3
+exec t3 
+t1
+t3
+exec t3 
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t2
+t1
+t3
+t3
+t1
+t1
+t1
+t1
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+t3
+exec t1 
+exec t2 
+t1
+t2
+t1
+t1
+t3
+exec t3 
+t3
+exec t3 
+t2
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t1
+t1
+t1
+t2
+t1
+t2
+exec t2 
+t2
+t1
+exec t1 
+t3
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+t2
+exec t2 
+t3
+t3
+t2
+t1
+t1
+exec t1 
+t3
+t1
+t3
+exec t3 
+exec t1 
+t1
+exec t1 
+t1
+t3
+exec t2 
+exec t2 
+t2
+t2
+exec t2 
+t2
+exec t1 
+exec t3 
+exec t3 
+t1
+exec t3 
+exec t3 
+t3
+t1
+t2
+exec t2 
+t2
+exec t1 
+t1
+exec t1 
+t2
+t3
+exec t2 
+t2
+exec t3 
+exec t1 
+t1
+exec t2 
+exec t2 
+t3
+t1
+t1
+exec t1 
+t1
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t2 
+t2
+exec t2 
+exec t2 
+t2
+t2
+t3
+t1
+t2
+t3
+t1
+t2
+exec t1 
+exec t1 
+exec t3 
+t1
+t2
+t3
+exec t2 
+exec t1 
+exec t2 
+exec t3 
+t1
+exec t2 
+exec t2 
+exec t2 
+t1
+exec t3 
+t2
+t1
+t1
+t3
+t3
+t2
+exec t1 
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t2 
+t1
+t3
+t1
+t3
+t1
+t2
+exec t1 
+exec t1 
+exec t2 
+t3
+exec t2 
+exec t3 
+t2
+t2
+t1
+t2
+exec t3 
+t1
+exec t1 
+t2
+exec t2 
+t1
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+t3
+t2
+t1
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t3
+t3
+t1
+t2
+t2
+t3
+t2
+t1
+exec t2 
+t2
+exec t1 
+exec t1 
+t2
+t2
+exec t3 
+t3
+exec t3 
+exec t3 
+t2
+exec t2 
+exec t2 
+exec t2 
+t3
+t1
+t3
+t2
+exec t3 
+t1
+exec t1 
+exec t3 
+exec t2 
+exec t1 
+exec t2 
+exec t2 
+t3
+t2
+t3
+t1
+t1
+t3
+exec t3 
+t3
+exec t2 
+exec t1 
+t3
+exec t3 
+exec t1 
+t2
+t2
+t3
+exec t3 
+exec t2 
+t2
+t1
+exec t3 
+exec t3 
+t3
+t3
+exec t3 
+exec t3 
+exec t1 
+exec t3 
+exec t2 
+t3
+t3
+t1
+t1
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t1 
+t1
+exec t3 
+exec t2 
+exec t2 
+exec t2 
+t1
+t1
+t2
+t2
+t2
+t2
+t2
+exec t1 
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+t2
+t1
+t2
+t3
+t1
+exec t2 
+exec t2 
+exec t1 
+exec t2 
+exec t1 
+exec t2 
+t2
+exec t2 
+t2
+t2
+t2
+t3
+t1
+t2
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+t3
+exec t3 
+t3
+t1
+t3
+t3
+exec t1 
+t2
+exec t3 
+t2
+exec t2 
+exec t2 
+t3
+exec t2 
+t2
+t3
+exec t2 
+t2
+exec t2 
+t1
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+t2
+t2
+t2
+t1
+exec t3 
+exec t1 
+exec t2 
+t2
+exec t2 
+exec t2 
+t3
+t1
+t2
+t1
+exec t2 
+t3
+exec t3 
+t2
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t2
+t1
+t2
+t2
+t1
+exec t1 
+exec t1 
+exec t3 
+exec t3 
+t2
+exec t2 
+exec t2 
+t1
+t2
+t2
+exec t2 
+t2
+t2
+t3
+exec t2 
+exec t2 
+exec t1 
+t2
+t2
+t1
+exec t2 
+t1
+exec t1 
+exec t2 
+exec t1 
+exec t3 
+exec t2 
+exec t2 
+t2
+exec t2 
+exec t2 
+t1
+t3
+t3
+t2
+t2
+t1
+t1
+exec t2 
+t3
+exec t1 
+exec t1 
+exec t1 
+t3
+t3
+exec t3 
+t3
+t3
+exec t2 
+t1
+exec t3 
+exec t3 
+exec t2 
+exec t2 
+t2
+exec t1 
+exec t2 
+t3
+t2
+t1
+t1
+t1
+exec t1 
+exec t3 
+exec t3 
+exec t3 
+exec t1 
+exec t1 
+exec t3 
+t2
+t1
+t2
+t3
+t2
+t3
+t3
+exec t2 
+exec t1 
+exec t2 
+exec t3 
+t1
+t2
+t2
+t1
+exec t3 
+exec t1 
+exec t3 
+exec t3 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+t1
+t2
+t1
+t2
+t3
+t2
+t2
+t1
+exec t1 
+exec t1 
+exec t1 
+t1
+exec t2 
+exec t2 
+t3
+t3
+t1
+t2
+exec t3 
+exec t1 
+exec t1 
+exec t2 
+exec t2 
+exec t2 
+exec t2 
+t3
+t1
+t2
+t3
+exec t3 
+t3
+t2
+exec t1 
+exec t3 
+exec t3 
+
+TF
+exec TF 
+TF
+exec TF 
+TF
+exec TF 
+exec t2 
+TF
+exec TF 
+TF
+exec TF 
+TF
+exec TF 
+exec t3 
+exec t2 
+exec t3 
+exec t2 
+TF
+exec TF 
+TF
+exec TF 
+TF
+exec TF 
+TF
+exec TF 
+
+-----------------------------------------
+             MATRIZ DE RESULTADOS         
+-----------------------------------------
+TipoTarea | Total | Exitosas | CargaTotal
+-----------------------------------------
+       t1 | 345.578 |      334 |    3480.19
+       t2 | 348.00 |   322.00 |    6957.47
+       TF | 305.00 |   262.00 |    9134.85
+-----------------------------------------
