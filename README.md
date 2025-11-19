@@ -38,6 +38,7 @@ Centralizar **todo el material académico y práctico** de segundo de carrera:
 
 ## Trabajos en grupo
 - [Practicas EDA con Compañero](https://github.com/Rodrigo-unizar/PracEDA.git)
+- [Practicas TC con compañero](https://github.com/Rodrigo-unizar/PractsTC.git)
 
 ---
 ## 🧰 Tecnologías y herramientas comunes
