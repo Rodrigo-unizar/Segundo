@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
                 }
                 exit(0);
             default:
-                // Proceso Hijo
+                // Proceso Padre
                 wait(NULL);
                 a++;
                 
