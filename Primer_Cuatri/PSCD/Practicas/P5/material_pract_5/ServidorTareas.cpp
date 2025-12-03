@@ -11,29 +11,39 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include "monitor.hpp"
 
 using namespace std;
+semaphore s1(1);
 
-//-------------------------------------------------------------
-// Cuenta el número de vocales existentes en un mensaje
-// PRE:
-// POST: Devuelve el número de vocales existentes en el mensaje 'message'
-int cuentaVocales(string message) {
-    set<char> vocales = {'a','A','e','E','i','I','o','O','u','U'};
-    int count = 0;
+void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monitor& m) {
+    tarea T;
+    bool asignada = false;
+    ifstream f("tareas.txt");
 
-    for (int i=0; i < message.length(); i++) {
-        if (vocales.find(message[i]) != vocales.end()) {
-            count++;
+    tarea TF;
+    TF.tipoTarea = "TF";
+    TF.cargaDeTrabajo = 0.0;
+
+    if(f.is_open()){
+        while (!f.eof()){
+            getline(f, T.tipoTarea, ',');
+            f >> T.cargaDeTrabajo;
+            f.ignore();
+
+            m.asignarTarea(T);
         }
     }
-    return count;
+
+
+    m.asignarTareaFinal(TF);
 }
+
 
 //-------------------------------------------------------------
 // Espera "secs" segundos y se conecta. Usado para desbloquear un "accept"
 // Y pone "fin" a true
-void timeOut(int secs,bool& fin,int port) {
+void timeOut(bool& fin,int port, int& numFin) {
 	Socket chan("localhost", port);
 	this_thread::sleep_for(chrono::seconds(secs));
 	fin = true;
@@ -41,11 +51,14 @@ void timeOut(int secs,bool& fin,int port) {
 	chan.Close();
 }
 //-------------------------------------------------------------
-void servCliente(Socket& chan, int client_fd) {
-    string MENS_FIN = "END OF SERVICE";
+void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
+    string MENS_FIN = "END";
+    string buffer;
+    string atask = "GET_TASK";
     // Buffer para recibir el mensaje
     int length = 100;
     string buffer;
+    tarea T;
 
 
     bool out = false; // Inicialmente no salir del bucle
@@ -59,17 +72,17 @@ void servCliente(Socket& chan, int client_fd) {
             chan.Close(client_fd);
         }
 
-        cout << "Mensaje recibido: " + buffer + "\n";
+       
 
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
         if (buffer == MENS_FIN) {
             out = true; // Salir del bucle
-        } else {
+        } else if (buffer == atask) {
             // Contamos las vocales recibidas en el mensaje anterior
-            int num_vocales = cuentaVocales(buffer);
+            m.tomarTarea(id, T);
 
             // Enviamos la respuesta
-            string s = to_string(num_vocales);
+            string s = T.tipoTarea + "," + to_string(T.cargaDeTrabajo);
 
             int send_bytes = chan.Send(client_fd, s);
             if(send_bytes == -1) {
@@ -88,6 +101,11 @@ int main(int argc,char* argv[]) {
     // Puerto donde escucha el proceso servidor
     int SERVER_PORT = stoi(argv[1]); //normalmente será un parámetro de invocación. P.e.: argv[1]
     vector<thread> cliente;
+
+    monitor m;
+
+    thread master(&masterTask, ref(mBT), ref(m));
+    master.join();
 
     bool fin = false;
 
@@ -112,7 +130,7 @@ int main(int argc,char* argv[]) {
     }
     //para desbloquear servidor y terminar
     thread timeControl(&timeOut,60,ref(fin),SERVER_PORT);
-
+    int j = 0;
     int i = 0;
     while (!fin) {
     	i++;
@@ -127,8 +145,9 @@ int main(int argc,char* argv[]) {
         } else {
         	if (!fin) {
                 //introducir en el vector el cliente y arrancar el thread
-        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds));
+        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j));
         	    cout << "Nuevo cliente " + to_string(i) + " aceptado" + "\n";
+                j++;
         	}
         	else {
         		cout << "He acabado" << endl;
