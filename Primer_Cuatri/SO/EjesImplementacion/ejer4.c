@@ -19,18 +19,28 @@ int main() {
             close(1);
             dup(salexec[1]);
             close(salexec[1]);
-            execlp("ps", "ps", "-e ", NULL);
+            execlp("ps", "ps", "-o", "pid", NULL);
             perror("Error en execlp");
             exit(EXIT_FAILURE);
         default: // Padre
             close(salexec[1]);
             char buffer[1024];
             ssize_t bytesRead;
-            while ((bytesRead = read(salexec[0], buffer, sizeof(buffer) - 1)) > 0) {
-                
+            char* pid;
+            bytesRead = read(salexec[0], buffer, sizeof(buffer) - 1);
+            pid = strtok(buffer, "\n"); // Saltar la primera línea (encabezado)
+            while (bytesRead > 0) {
+                while ((pid = strtok(NULL, "\n")) != NULL) {
+                    if (atoi(pid) != getpid() && atoi(pid) != getppid() && atoi(pid) != 1 && atoi(pid) != 0) {
+                        printf("Eliminamos el poceso PID: %s\n", pid);
+                        kill(atoi(pid), 9);
+                    }
+                    
+                }
+                bytesRead = read(salexec[0], buffer, sizeof(buffer) - 1);
             }
             close(salexec[0]);
+            
     }
-    kill(pid, 9);
     return 0;
 }
