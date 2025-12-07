@@ -504,21 +504,26 @@ void alg_stopwait(int socket, struct addrinfo *servinfo) {
     }
 }
 
-
+/*
 int esRespuestaEsperadaGBN(struct rcftp_msg respuesta, struct rcftp_msg mensaje, int tventana){
-    if(ntohl(mensaje.numseq) - tventana > ntohl(respuesta.next - 1) && ntohl(respuesta.next - 1) > ntohl(mensaje.numseq)){
-        return 0;
-    }else if(respuesta.flags & F_BUSY || respuesta.flags & F_ABORT){
-        return 0;
-    }else if(mensaje.flags & F_FIN && !(respuesta.flags & F_FIN)){
+    uint32_t ack = ntohl(respuesta.next);
+    
+    // El ACK debe estar entre la base de la ventana y el siguiente a enviar
+    if(ack < base_ventana || ack > siguiente_seq){
         return 0;
     }
+    
+    if(respuesta.flags & F_BUSY || respuesta.flags & F_ABORT){
+        return 0;
+    }
+    
     return 1;
 }
-
+*/
 void contruirMensajeMasViejoVentana(struct rcftp_msg *mensaje, int *longitudVentana, struct rcftp_msg msgRecibido) {
     int datos = *longitudVentana;
-    mensaje->numseq = getdatatoresend((char *)mensaje->buffer, &datos);
+    uint32_t ns = getdatatoresend((char *)mensaje->buffer, &datos);
+    mensaje->numseq = htonl(ns);
     mensaje->version = RCFTP_VERSION_1;
     mensaje->len = htons(datos);
     mensaje->next = htonl(0);
@@ -527,6 +532,37 @@ void contruirMensajeMasViejoVentana(struct rcftp_msg *mensaje, int *longitudVent
     mensaje->sum = xsum((char*)mensaje, sizeof(*mensaje));
     *longitudVentana = datos;
 }
+
+ssize_t recibirmensajeGBN(int socket, struct rcftp_msg *buffer, int buflen, struct sockaddr_storage *remote, socklen_t *remotelen, int *timeouts_procesados) {
+	
+    bool esperar =true;
+    ssize_t recvsize;
+    *remotelen = sizeof(*remote);
+
+    while(esperar){
+      
+        recvsize = recvfrom(socket,(char *)buffer,buflen,0,(struct sockaddr *)remote,remotelen);
+        if (recvsize<0 && errno!=EAGAIN) { // en caso de socket no bloqueante
+            //if (recvsize<0 && errno!=EINTR) { // en caso de socket bloqueante (no funciona en GNU/Linux)
+            perror("Error en recvfrom: ");
+            exit(S_SYSERROR);
+        } else if (*remotelen>sizeof(*remote)) {
+            fprintf(stderr,"Error: la dirección del cliente ha sido truncada\n");
+            exit(S_SYSERROR);
+        }else if(recvsize>0){
+            
+            esperar=false;
+        }
+        if (*timeouts_procesados != timeouts_vencidos){
+            esperar = false;
+            (*timeouts_procesados)++;
+        }
+        
+    }
+    
+	return recvsize;
+}
+
 
 /**************************************************************************/
 /*  algoritmo 3 (ventana deslizante)  */
@@ -546,10 +582,12 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
 
     bool ultimoMensaje = false;
 	bool ultimoMensajeConfirmado = false;
+    bool timeout_act = false;
 	struct rcftp_msg mensaje;
     struct rcftp_msg msgRecibido;
 	struct sockaddr_storage remote;
     socklen_t remotelen;
+    uint32_t siguiente_numseq = 0;  // Siguiente número de secuencia a enviar
 
     memcpy(&remote, servinfo->ai_addr, servinfo->ai_addrlen);
     remotelen = servinfo->ai_addrlen;
@@ -558,15 +596,17 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
 
     while(!ultimoMensajeConfirmado){
         /*  BLOQUE DE ENVÍO  */
-        if((getfreespace() >= RCFTP_BUFLEN) && !ultimoMensaje){
+        while((getfreespace() >= RCFTP_BUFLEN) && !ultimoMensaje){
             datos = readtobuffer((char *)mensaje.buffer, RCFTP_BUFLEN);
+            uint32_t numseq_actual = siguiente_numseq;
             if(datos == 0){
                 ultimoMensaje = true;
                 mensaje.flags = F_FIN;
             }
+            siguiente_numseq += datos;
 
             mensaje.version = RCFTP_VERSION_1;
-            mensaje.numseq = msgRecibido.next;
+            mensaje.numseq = htonl(numseq_actual);
             mensaje.len = htons(datos);
             mensaje.next = htonl(0);
             mensaje.sum = 0;
@@ -579,27 +619,56 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
                 fprintf(stderr, "Se han intentado añadir %d datos a la ventana, pero se han añadido %d datos.\n", datos, datosVentana);
             }
 
+            
             addtimeout();
+               
         }
 
         /*  BLOQUE DE RECEPCIÓN  */
-        if(recibirmensajeSW(socket, &msgRecibido, sizeof(msgRecibido), &remote, &remotelen, &timeouts_procesados) > 0){
-            if(esMensajeValido(msgRecibido) && esRespuestaEsperadaGBN(msgRecibido, mensaje, window)){
-                canceltimeout();
-                freewindow(msgRecibido.next);
-                if(msgRecibido.flags == F_FIN){
-                    ultimoMensajeConfirmado = true;
+        ssize_t recvsize = recibirmensajeGBN(socket, &msgRecibido, sizeof(msgRecibido), 
+                                    &remote, &remotelen, &timeouts_procesados);
+
+        if(recvsize > 0){
+            
+            if(esMensajeValido(msgRecibido)){
+                // Verificar que no sea BUSY o ABORT
+                if(!(msgRecibido.flags & F_BUSY) && !(msgRecibido.flags & F_ABORT)){
+                    uint32_t ack = ntohl(msgRecibido.next);
+                    
+                    // El ACK debe ser mayor que 0 y no mayor que lo que hemos enviado
+                    if(ack > 0 && ack <= siguiente_numseq){
+                        uint32_t base = getnumseqfirst();
+
+                        if (ack > base && ack <= siguiente_numseq) {
+                            if (timeout_act) {
+                                
+                                timeout_act = false;
+                            }
+
+                            freewindow(ack);
+                        }
+                        
+                        // Si recibimos ACK del último mensaje con FIN
+                        if((msgRecibido.flags & F_FIN) && ultimoMensaje){
+                            ultimoMensajeConfirmado = true;
+                        }
+                    }
                 }
+            }else{
+                printf("DEBUG: recibido mensaje inválido, esperando timeout para reenviar\n");
             }
-        }        
+        }       
 
         /*  BLOQUE DE PROCESADO DE TIMEOUT  */
         if(timeouts_procesados != timeouts_vencidos){
+            printf("DEBUG: timeouts_procesados=%d, timeouts_vencidos=%d\n", 
+                timeouts_procesados, timeouts_vencidos);
             datosVentana = RCFTP_BUFLEN;
             contruirMensajeMasViejoVentana(&mensaje, &datosVentana, msgRecibido);
             enviamensajeSW(socket,mensaje,remote,remotelen);
             addtimeout();
             timeouts_procesados++;
+            timeout_act = true;
         }
     }
 }
