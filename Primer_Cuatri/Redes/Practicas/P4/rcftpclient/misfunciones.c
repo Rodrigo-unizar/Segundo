@@ -554,13 +554,15 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
     memcpy(&remote, servinfo->ai_addr, servinfo->ai_addrlen);
     remotelen = servinfo->ai_addrlen;
 
-    
+    msgRecibido.next = htonl(0);
+
     while(!ultimoMensajeConfirmado){
         /*  BLOQUE DE ENVÍO  */
         if((getfreespace() >= RCFTP_BUFLEN) && !ultimoMensaje){
             datos = readtobuffer((char *)mensaje.buffer, RCFTP_BUFLEN);
             if(datos == 0){
                 ultimoMensaje = true;
+                mensaje.flags = F_FIN;
             }
 
             mensaje.version = RCFTP_VERSION_1;
@@ -572,10 +574,12 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
             mensaje.sum = xsum((char*)&mensaje, sizeof(mensaje));
 
             enviamensajeSW(socket,mensaje,remote,remotelen);
-            addtimeout();
-            if(datosVentana = addsentdatatowindow((char *)mensaje.buffer, datos) != datos){
+            
+            if((datosVentana = addsentdatatowindow((char *)mensaje.buffer, datos)) != datos){
                 fprintf(stderr, "Se han intentado añadir %d datos a la ventana, pero se han añadido %d datos.\n", datos, datosVentana);
             }
+
+            addtimeout();
         }
 
         /*  BLOQUE DE RECEPCIÓN  */
