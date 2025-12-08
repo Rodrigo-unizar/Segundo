@@ -29,6 +29,7 @@ void fcliente(int SERVER_PORT, string SERVER_ADDRESS) {
     const int MAX_ATTEMPS = 10;
     int count = 0;
     int socket_fd;
+    int socket_fd2;
     do {
         // Conexión con el servidor
         socket_fd = Stareas.Connect();
@@ -43,10 +44,11 @@ void fcliente(int SERVER_PORT, string SERVER_ADDRESS) {
 
     // Chequeamos si se ha realizado la conexión
     if(socket_fd == -1 || socket_fd2 == -1) {
-        return socket_fd;
+        cerr << Stareas.error("No se ha podido conectar con el servidor");
+        exit(1);
     }
 
-    string buffer;
+    
     int read_bytes;   //num de bytes recibidos en un mensaje
     int send_bytes;  //num de bytes enviados en un mensaje
     bool fin = false;
@@ -63,26 +65,60 @@ void fcliente(int SERVER_PORT, string SERVER_ADDRESS) {
             exit(1);
         }
 
-        if(atask != MENS_FIN) {
-            // Buffer para almacenar la respuesta
-            string buffer;
+        
+        // Buffer para almacenar la respuesta
+        string buffer;
 
-            // Recibimos la respuesta del servidor
-            read_bytes = Stareas.Receive(socket_fd, buffer, MESSAGE_SIZE);
+        // Recibimos la respuesta del servidor
+        read_bytes = Stareas.Receive(socket_fd, buffer, MESSAGE_SIZE);
+        
+        int i = 0;
+        int num_exist = 0;
+            bool exito = true;
+            string tipoTarea = "";
+            string cargaStr = "";
+            while(buffer[i] != ',') {
+                tipoTarea += buffer[i];
+                i++;
+            }
+            i++; //saltamos la coma
+            while (i < buffer.length() && buffer[i] != '\0'){
+                i++;
+                cargaStr += buffer[i];
+            }
+            if(tipoTarea == "t1"){
+                num_exist =1 + rand() % 100;
+                exito = num_exist > 5;
+            }else if(tipoTarea == "t2"){
+                num_exist =1 + rand() % 100;
+                exito = num_exist > 7;
+            }else if(tipoTarea == "t3"){
+                num_exist =1 + rand() % 100;
+                exito = num_exist > 10;
+            }
+            i++; //saltamos la coma
+            if(exito){
+                buffer = tipoTarea + "," + "OK," + cargaStr;
+            }else{
+                buffer = tipoTarea + "," + "NO_OK," + cargaStr;
+            }
+            
 
-            send_bytes = Smatriz.Send(socket_fd2, buffer);
-            if(send_bytes == -1) {
-                cerr << Smatriz.error("Error al enviar datos");
-                // Cerramos el socket
-                Smatriz.Close();
-                exit(1);
-            }
-            // Recibimos la respuesta del servidor
-            read_bytes = Smatriz.Receive(socket_fd2, buffer, MESSAGE_SIZE);
-            if(buffer == MENS_FIN){
-                atask = MENS_FIN;
-            }
-        }else{
+        send_bytes = Smatriz.Send(socket_fd2, buffer);
+        if(send_bytes == -1) {
+            cerr << Smatriz.error("Error al enviar datos");
+            // Cerramos el socket
+            Smatriz.Close();
+            exit(1);
+        }
+        // Recibimos la respuesta del servidor
+        //read_bytes = Smatriz.Receive(socket_fd2, buffer, MESSAGE_SIZE);
+        //if(buffer == MENS_FIN){
+            //fin = true;
+
+       // }
+        if(socket_fd2 == -1) {
+            // Cerramos el socket
             fin = true;
         }
     } while(!fin);
@@ -91,13 +127,12 @@ void fcliente(int SERVER_PORT, string SERVER_ADDRESS) {
     int error_code = Smatriz.Close();
     int error_code2 = Stareas.Close();
     if(error_code == -1 || error_code2 == -1) {
-        cerr << chan.error("Error cerrando el socket");
+        cerr << Stareas.error("Error cerrando el socket");
+        cerr << Smatriz.error("Error cerrando el socket");
     }
 
     // Despedida
     cout << "Bye bye" << endl;
-
-    return error_code;
 }
 
 int main(int argc,char* argv[]) {
@@ -105,10 +140,13 @@ int main(int argc,char* argv[]) {
     // Dirección y número donde escucha el proceso servidor
     string SERVER_ADDRESS = argv[1]; //alternativamente "127.0.0.1"
     int SERVER_PORT = stoi(argv[2]);
-    vector<thread> cliente;
+    thread cliente[N_CONTROLLERS];
     
     for(int i = 0; i < N_CONTROLLERS; i++) {
-        cliente.push_back(thread(&fcliente, SERVER_PORT, SERVER_ADDRESS));
-        cliente.join();
+        cliente[i] = thread(fcliente, SERVER_PORT, SERVER_ADDRESS);
     }
+    for(int i = 0; i < N_CONTROLLERS; i++) {
+        cliente[i].join();
+    }
+    return 0;
 }

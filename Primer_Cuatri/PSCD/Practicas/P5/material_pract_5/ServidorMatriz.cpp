@@ -11,41 +11,24 @@
 #include <iostream>
 #include <thread>
 #include <vector>
+#include "monitorMatriz.hpp"
 
 using namespace std;
 
-//-------------------------------------------------------------
-// Cuenta el número de vocales existentes en un mensaje
-// PRE:
-// POST: Devuelve el número de vocales existentes en el mensaje 'message'
-int cuentaVocales(string message) {
-    set<char> vocales = {'a','A','e','E','i','I','o','O','u','U'};
-    int count = 0;
 
-    for (int i=0; i < message.length(); i++) {
-        if (vocales.find(message[i]) != vocales.end()) {
-            count++;
-        }
-    }
-    return count;
-}
 
 //-------------------------------------------------------------
 // Espera "secs" segundos y se conecta. Usado para desbloquear un "accept"
 // Y pone "fin" a true
-void timeOut(int secs,bool& fin,int port) {
-	Socket chan("localhost", port);
-	this_thread::sleep_for(chrono::seconds(secs));
-	fin = true;
-	int sfd = chan.Connect(); //sacará al servidor del "Accept"
-	chan.Close();
-}
+
 //-------------------------------------------------------------
-void servCliente(Socket& chan, int client_fd) {
-    string MENS_FIN = "END OF SERVICE";
+void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
+    
     // Buffer para recibir el mensaje
     int length = 100;
     string buffer;
+    tarea T;
+    string tarFin = "TF";
 
 
     bool out = false; // Inicialmente no salir del bucle
@@ -59,25 +42,41 @@ void servCliente(Socket& chan, int client_fd) {
             chan.Close(client_fd);
         }
 
-        cout << "Mensaje recibido: " + buffer + "\n";
+       
 
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
-        if (buffer == MENS_FIN) {
+        if (buffer == tarFin) {
             out = true; // Salir del bucle
-        } else {
-            // Contamos las vocales recibidas en el mensaje anterior
-            int num_vocales = cuentaVocales(buffer);
-
-            // Enviamos la respuesta
-            string s = to_string(num_vocales);
-
-            int send_bytes = chan.Send(client_fd, s);
-            if(send_bytes == -1) {
-                cerr << chan.error("Error al enviar datos");
-                // Cerramos los sockets
-                chan.Close(client_fd);
-                exit(1);
+            int send_bytes = chan.Send(client_fd, tarFin);
+        } else { 
+            int i = 0;
+            bool exito = true;
+            while(buffer[i] != ',') {
+                T.tipoTarea += buffer[i];
+                i++;
             }
+            int j = 0;
+            i++; //saltamos la coma
+            while (buffer[i] != ','){
+                j++;
+                i++;
+            }
+            i++; //saltamos la coma
+            if(j != 2){
+                exito = false;
+            }
+            string cargaStr = "";
+            while (i < buffer.length() && buffer[i] != '\0'){
+                cargaStr += buffer[i];
+                i++;
+            }
+            T.cargaDeTrabajo = stof(cargaStr);
+            
+            m.escribirMatriz(T, exito);
+            // Enviamos la respuesta
+            
+            string s = "TASK_RECEIVED";
+            int send_bytes = chan.Send(client_fd, s);
         }
     }
     chan.Close(client_fd);
@@ -86,8 +85,12 @@ void servCliente(Socket& chan, int client_fd) {
 int main(int argc,char* argv[]) {
     const int N = 4;
     // Puerto donde escucha el proceso servidor
-    int SERVER_PORT = stoi(argv[1]) + 413; //normalmente será un parámetro de invocación. P.e.: argv[1]
+    int SERVER_PORT = stoi(argv[1]); //normalmente será un parámetro de invocación. P.e.: argv[1]
     vector<thread> cliente;
+    MultiBuffer<tarea,N_CONTROLLERS> mBT;
+
+    monitor m;
+
 
     bool fin = false;
 
@@ -111,8 +114,7 @@ int main(int argc,char* argv[]) {
         exit(1);
     }
     //para desbloquear servidor y terminar
-    thread timeControl(&timeOut,60,ref(fin),SERVER_PORT);
-
+    int j = 0;
     int i = 0;
     while (!fin) {
     	i++;
@@ -127,8 +129,9 @@ int main(int argc,char* argv[]) {
         } else {
         	if (!fin) {
                 //introducir en el vector el cliente y arrancar el thread
-        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds));
+        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j));
         	    cout << "Nuevo cliente " + to_string(i) + " aceptado" + "\n";
+                j++;
         	}
         	else {
         		cout << "He acabado" << endl;
@@ -140,7 +143,7 @@ int main(int argc,char* argv[]) {
     for (int i=0; i<cliente.size(); i++) {
         cliente[i].join();
     }
-    timeControl.join();
+    m.mostrarMatriz();
 
     // Cerramos el socket del servidor
     error_code = chan.Close();

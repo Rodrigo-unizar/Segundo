@@ -14,7 +14,7 @@
 #include "monitor.hpp"
 
 using namespace std;
-semaphore s1(1);
+
 
 void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monitor& m) {
     tarea T;
@@ -43,13 +43,7 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monito
 //-------------------------------------------------------------
 // Espera "secs" segundos y se conecta. Usado para desbloquear un "accept"
 // Y pone "fin" a true
-void timeOut(bool& fin,int port, int& numFin) {
-	Socket chan("localhost", port);
-	this_thread::sleep_for(chrono::seconds(secs));
-	fin = true;
-	int sfd = chan.Connect(); //sacará al servidor del "Accept"
-	chan.Close();
-}
+
 //-------------------------------------------------------------
 void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
     string MENS_FIN = "END";
@@ -101,6 +95,7 @@ int main(int argc,char* argv[]) {
     // Puerto donde escucha el proceso servidor
     int SERVER_PORT = stoi(argv[1]); //normalmente será un parámetro de invocación. P.e.: argv[1]
     vector<thread> cliente;
+    MultiBuffer<tarea,N_CONTROLLERS> mBT;
 
     monitor m;
 
@@ -129,7 +124,6 @@ int main(int argc,char* argv[]) {
         exit(1);
     }
     //para desbloquear servidor y terminar
-    thread timeControl(&timeOut,60,ref(fin),SERVER_PORT);
     int j = 0;
     int i = 0;
     while (!fin) {
@@ -159,7 +153,6 @@ int main(int argc,char* argv[]) {
     for (int i=0; i<cliente.size(); i++) {
         cliente[i].join();
     }
-    timeControl.join();
 
     // Cerramos el socket del servidor
     error_code = chan.Close();
