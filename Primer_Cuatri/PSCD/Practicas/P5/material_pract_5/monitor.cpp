@@ -25,7 +25,7 @@ void monitor::asignarTarea(tarea T){
 void monitor::asignarTareaFinal(tarea TF){
     unique_lock<mutex> lck(mtx);
     while (!(mBT.numberNews() == 0)){
-        c1.wait(lck);
+        c2.wait(lck);
     }
     for(int j = 0; j < N_CONTROLLERS;j++){
         mBT.put(TF, j);
@@ -42,5 +42,5 @@ void monitor::tomarTarea(unsigned int id, tarea& T){
     }
     T = mBT.get(id);
     c1.notify_one();
-    
+    c2.notify_all();
 }

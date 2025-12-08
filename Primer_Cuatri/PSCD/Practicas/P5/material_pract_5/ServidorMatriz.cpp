@@ -27,12 +27,14 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
     // Buffer para recibir el mensaje
     int length = 100;
     string buffer;
-    tarea T;
+    const string msgFin = "END";
     string tarFin = "TF";
 
 
     bool out = false; // Inicialmente no salir del bucle
     while(!out) {
+        tarea T;
+        int i = 0;
         // Recibimos el mensaje del cliente
         int rcv_bytes = chan.Receive(client_fd,buffer,length);
 
@@ -42,19 +44,17 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
             chan.Close(client_fd);
         }
 
-       
+       while(buffer[i] != ',') {
+            T.tipoTarea += buffer[i];
+            i++;
+        }
 
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
-        if (buffer == tarFin) {
+        if (tarFin == T.tipoTarea) {
             out = true; // Salir del bucle
-            int send_bytes = chan.Send(client_fd, tarFin);
         } else { 
-            int i = 0;
             bool exito = true;
-            while(buffer[i] != ',') {
-                T.tipoTarea += buffer[i];
-                i++;
-            }
+            
             int j = 0;
             i++; //saltamos la coma
             while (buffer[i] != ','){
@@ -71,7 +71,7 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
                 i++;
             }
             T.cargaDeTrabajo = stof(cargaStr);
-            
+            cout << "Servidor: Tarea recibida de tipo " + T.tipoTarea + " con carga de trabajo " + to_string(T.cargaDeTrabajo) + "\n";
             m.escribirMatriz(T, exito);
             // Enviamos la respuesta
             
@@ -79,7 +79,10 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
             int send_bytes = chan.Send(client_fd, s);
         }
     }
-    chan.Close(client_fd);
+    int send_bytes = chan.Send(client_fd, msgFin);
+    chan.Close();
+
+    cout << "Cliente " + to_string(id) + " finalizado\n";
 }
 //-------------------------------------------------------------
 int main(int argc,char* argv[]) {
@@ -138,11 +141,12 @@ int main(int argc,char* argv[]) {
         	}
         }
     }
-
+    cout << "Servidor matriz finalizando. Esperando a los clientes...\n";
     //¿Qué pasa si algún thread acaba inesperadamente?
     for (int i=0; i<cliente.size(); i++) {
         cliente[i].join();
     }
+    cout << "Servidor matriz finalizando. Matriz final:\n";
     m.mostrarMatriz();
 
     // Cerramos el socket del servidor

@@ -112,14 +112,11 @@ void fcliente(int SERVER_PORT, string SERVER_ADDRESS) {
             exit(1);
         }
         // Recibimos la respuesta del servidor
-        //read_bytes = Smatriz.Receive(socket_fd2, buffer, MESSAGE_SIZE);
-        //if(buffer == MENS_FIN){
-            //fin = true;
-
-       // }
-        if(socket_fd2 == -1) {
-            // Cerramos el socket
+        read_bytes = Smatriz.Receive(socket_fd2, buffer, MESSAGE_SIZE);
+        cout << "Respuesta del servidor de matriz: " + buffer + "\n";
+        if(buffer == MENS_FIN){
             fin = true;
+            send_bytes = Stareas.Send(socket_fd, MENS_FIN);
         }
     } while(!fin);
 

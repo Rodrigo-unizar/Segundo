@@ -30,7 +30,6 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m) {
             getline(f, T.tipoTarea, ',');
             f >> T.cargaDeTrabajo;
             f.ignore();
-            cout << "Nueva tarea de tipo " + T.tipoTarea + " leída del fichero\n";
             m.asignarTarea(T);
         }
     }
@@ -66,7 +65,7 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
         }
 
        
-
+        cout << "Servidor: Mensaje recibido del cliente " + to_string(id) + ": " + buffer + "\n";
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
         if (buffer == MENS_FIN) {
             out = true; // Salir del bucle
@@ -86,7 +85,7 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
             }
         }
     }
-    chan.Close(client_fd);
+    chan.Close();
 }
 //-------------------------------------------------------------
 int main(int argc,char* argv[]) {
@@ -105,6 +104,7 @@ int main(int argc,char* argv[]) {
     // Creación del socket con el que se llevará a cabo
     // la comunicación con el servidor.
     Socket chan(SERVER_PORT);
+    thread master(&masterTask, ref(mBT), ref(m));
     
     // bind
     int socket_fd = chan.Bind();
@@ -150,13 +150,13 @@ int main(int argc,char* argv[]) {
         	}
         }
     }
-    thread master(&masterTask, ref(mBT), ref(m));
+    
     master.join();
-
     //¿Qué pasa si algún thread acaba inesperadamente?
     for (int i=0; i<cliente.size(); i++) {
         cliente[i].join();
     }
+    cout << "Servidor matriz finalizando. Matriz final:\n";
 
     // Cerramos el socket del servidor
     error_code = chan.Close();

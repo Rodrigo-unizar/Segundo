@@ -27,6 +27,7 @@ struct monitor{
         MultiBuffer<tarea,N_CONTROLLERS> mBT; //multi-buffer de tareas
         mutex mtx;
         condition_variable c1; //B.numberNews() < N_CONTROLLERS
+        condition_variable c2; //B.numberNews() == 0
         condition_variable cC[N_CONTROLLERS]; //B.isNew(i)
         
 };
