@@ -80,4 +80,6 @@ void printvemision();
 
 uint32_t getnumseqfirst();
 
+void resetresendelem();
+
 

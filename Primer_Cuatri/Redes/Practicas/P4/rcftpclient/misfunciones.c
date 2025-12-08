@@ -663,13 +663,38 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
         if(timeouts_procesados != timeouts_vencidos){
             printf("DEBUG: timeouts_procesados=%d, timeouts_vencidos=%d\n", 
                 timeouts_procesados, timeouts_vencidos);
-            datosVentana = RCFTP_BUFLEN;
-            contruirMensajeMasViejoVentana(&mensaje, &datosVentana, msgRecibido);
-            enviamensajeSW(socket,mensaje,remote,remotelen);
-            addtimeout();
+
             timeouts_procesados++;
             timeout_act = true;
-        }
+            
+            
+            
+                // En cada iteración se envían RCFTP_BUFLEN bytes (máximo) del buffer actual
+                
+                
+                // Verifica si se pudo obtener algún dato
+            do {
+                datosVentana = RCFTP_BUFLEN;
+                
+                // La función construye el mensaje y usa getdatatoresend,
+                // que recupera los datos y avanza el puntero de reenvío interno.
+                contruirMensajeMasViejoVentana(&mensaje, &datosVentana, msgRecibido);
+                
+                if (datosVentana > 0) {
+                    enviamensajeSW(socket,mensaje,remote,remotelen);
+                }
+            // El bucle para cuando getdatatoresend ya no tiene más datos que reenviar
+            // antes de que el puntero se reseteen (o cuando resetea y devuelve 0 bytes).
+            } while (datosVentana > 0);
+
+
+            
+
+            addtimeout(); // Programar el siguiente timeout
+        } 
+        
+            
+        
     }
 }
 

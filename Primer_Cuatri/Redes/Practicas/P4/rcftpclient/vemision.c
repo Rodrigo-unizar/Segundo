@@ -151,3 +151,7 @@ void printvemision() {
 uint32_t getnumseqfirst() {
     return numseqfirst;
 }
+
+void resetresendelem() {
+    resendelem=firstelem;
+}
