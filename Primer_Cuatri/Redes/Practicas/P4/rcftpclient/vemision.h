@@ -78,4 +78,6 @@ uint32_t getdatatoresend(char * buffer, int *len);
  */
 void printvemision();
 
+uint32_t getnumseqfirst();
+
 
