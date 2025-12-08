@@ -1,6 +1,6 @@
 #include "monitorMatriz.hpp"
 
-monitorM::monitor(){
+monitor::monitor(){
     for(int i = 0; i < 3; i++){
         for(int j = 0; j < 3; j++){
             matriz[i][j] = 0.0;
@@ -8,7 +8,7 @@ monitorM::monitor(){
     }
 }
 
-void monitorM::mostrarMatriz(){
+void monitor::mostrarMatriz(){
     unique_lock<mutex> lck(mtx);
     while (!(mBT.numberNews() == 0)){
         c2.wait(lck);
@@ -33,7 +33,7 @@ void monitorM::mostrarMatriz(){
 }
 
 
-void monitorM::escribirMatriz(tarea T, bool exito){
+void monitor::escribirMatriz(tarea T, bool exito){
     unique_lock<mutex> lck(mtx);
     if(T.tipoTarea == "t1"){
             matriz[0][0]++;

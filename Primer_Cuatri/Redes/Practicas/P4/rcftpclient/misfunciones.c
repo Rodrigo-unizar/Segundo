@@ -504,28 +504,24 @@ void alg_stopwait(int socket, struct addrinfo *servinfo) {
     }
 }
 
-/*
-int esRespuestaEsperadaGBN(struct rcftp_msg respuesta, struct rcftp_msg mensaje, int tventana){
-    uint32_t ack = ntohl(respuesta.next);
-    
-    // El ACK debe estar entre la base de la ventana y el siguiente a enviar
-    if(ack < base_ventana || ack > siguiente_seq){
+
+int esRespuestaEsperadaGBN(struct rcftp_msg respuesta, struct rcftp_msg mensaje, int datosTotal, int msgMasViejo){
+    if(ntohl(respuesta.next) > datosTotal ||  msgMasViejo >= ntohl(respuesta.next)){
+        return 0;
+    }else if(respuesta.flags & F_BUSY || respuesta.flags & F_ABORT){
+        return 0;
+    }else if(mensaje.flags & F_FIN && !(respuesta.flags & F_FIN)){
         return 0;
     }
-    
-    if(respuesta.flags & F_BUSY || respuesta.flags & F_ABORT){
-        return 0;
-    }
-    
     return 1;
 }
-*/
+
 void contruirMensajeMasViejoVentana(struct rcftp_msg *mensaje, int *longitudVentana, struct rcftp_msg msgRecibido) {
     int datos = *longitudVentana;
-    uint32_t ns = getdatatoresend((char *)mensaje->buffer, &datos);
-    mensaje->numseq = htonl(ns);
+    mensaje->numseq = htonl(getdatatoresend((char *)mensaje->buffer, &datos));
     mensaje->version = RCFTP_VERSION_1;
     mensaje->len = htons(datos);
+    //mensaje->flags = 0;
     mensaje->next = htonl(0);
     mensaje->sum = 0;
     // calcular checksum sobre toda la estructura
@@ -536,7 +532,7 @@ void contruirMensajeMasViejoVentana(struct rcftp_msg *mensaje, int *longitudVent
 ssize_t recibirmensajeGBN(int socket, struct rcftp_msg *buffer, int buflen, struct sockaddr_storage *remote, socklen_t *remotelen, int *timeouts_procesados) {
 	
     bool esperar =true;
-    ssize_t recvsize;
+    ssize_t recvsize = -1;
     *remotelen = sizeof(*remote);
 
     while(esperar){
@@ -550,19 +546,16 @@ ssize_t recibirmensajeGBN(int socket, struct rcftp_msg *buffer, int buflen, stru
             fprintf(stderr,"Error: la dirección del cliente ha sido truncada\n");
             exit(S_SYSERROR);
         }else if(recvsize>0){
-            
             esperar=false;
         }
         if (*timeouts_procesados != timeouts_vencidos){
             esperar = false;
-            (*timeouts_procesados)++;
         }
         
     }
     
 	return recvsize;
 }
-
 
 /**************************************************************************/
 /*  algoritmo 3 (ventana deslizante)  */
@@ -577,124 +570,73 @@ void alg_ventana(int socket, struct addrinfo *servinfo,int window) {
     int timeouts_procesados = 0;
     int datosVentana = 0;
     int datos = 0;
+    int datoMasViejo = 0;
+    int datosTotal = 0;
 
     setwindowsize(window);
 
     bool ultimoMensaje = false;
-	bool ultimoMensajeConfirmado = false;
-    bool timeout_act = false;
-	struct rcftp_msg mensaje;
+    bool ultimoMensajeConfirmado = false;
+    struct rcftp_msg mensaje;
     struct rcftp_msg msgRecibido;
-	struct sockaddr_storage remote;
+    struct sockaddr_storage remote;
     socklen_t remotelen;
-    uint32_t siguiente_numseq = 0;  // Siguiente número de secuencia a enviar
 
     memcpy(&remote, servinfo->ai_addr, servinfo->ai_addrlen);
     remotelen = servinfo->ai_addrlen;
 
-    msgRecibido.next = htonl(0);
 
     while(!ultimoMensajeConfirmado){
         /*  BLOQUE DE ENVÍO  */
         while((getfreespace() >= RCFTP_BUFLEN) && !ultimoMensaje){
             datos = readtobuffer((char *)mensaje.buffer, RCFTP_BUFLEN);
-            uint32_t numseq_actual = siguiente_numseq;
             if(datos == 0){
                 ultimoMensaje = true;
                 mensaje.flags = F_FIN;
-            }
-            siguiente_numseq += datos;
+            } else {
+		mensaje.flags = 0;
+	    }
 
             mensaje.version = RCFTP_VERSION_1;
-            mensaje.numseq = htonl(numseq_actual);
+            mensaje.numseq = htonl(datosTotal);
             mensaje.len = htons(datos);
             mensaje.next = htonl(0);
-            mensaje.sum = 0;
+            mensaje.sum = htons(0);
             // calcular checksum sobre toda la estructura
             mensaje.sum = xsum((char*)&mensaje, sizeof(mensaje));
 
             enviamensajeSW(socket,mensaje,remote,remotelen);
-            
+
+	    addtimeout();
             if((datosVentana = addsentdatatowindow((char *)mensaje.buffer, datos)) != datos){
                 fprintf(stderr, "Se han intentado añadir %d datos a la ventana, pero se han añadido %d datos.\n", datos, datosVentana);
             }
 
-            
-            addtimeout();
-               
+            datosTotal = datosTotal + datos;
         }
 
         /*  BLOQUE DE RECEPCIÓN  */
-        ssize_t recvsize = recibirmensajeGBN(socket, &msgRecibido, sizeof(msgRecibido), 
-                                    &remote, &remotelen, &timeouts_procesados);
+        if(recibirmensajeGBN(socket, &msgRecibido, sizeof(msgRecibido), &remote, &remotelen, &timeouts_procesados) > 0){
+            if(esMensajeValido(msgRecibido) && esRespuestaEsperadaGBN(msgRecibido, mensaje, datosTotal, datoMasViejo)){
+                canceltimeout();
+		printvemision();
+		datoMasViejo = ntohl(msgRecibido.next);
+                freewindow(datoMasViejo);
 
-        if(recvsize > 0){
-            
-            if(esMensajeValido(msgRecibido)){
-                // Verificar que no sea BUSY o ABORT
-                if(!(msgRecibido.flags & F_BUSY) && !(msgRecibido.flags & F_ABORT)){
-                    uint32_t ack = ntohl(msgRecibido.next);
-                    
-                    // El ACK debe ser mayor que 0 y no mayor que lo que hemos enviado
-                    if(ack > 0 && ack <= siguiente_numseq){
-                        uint32_t base = getnumseqfirst();
-
-                        if (ack > base && ack <= siguiente_numseq) {
-                            if (timeout_act) {
-                                
-                                timeout_act = false;
-                            }
-
-                            freewindow(ack);
-                        }
-                        
-                        // Si recibimos ACK del último mensaje con FIN
-                        if((msgRecibido.flags & F_FIN) && ultimoMensaje){
-                            ultimoMensajeConfirmado = true;
-                        }
-                    }
+                if(msgRecibido.flags == F_FIN){
+                    ultimoMensajeConfirmado = true;
                 }
-            }else{
-                printf("DEBUG: recibido mensaje inválido, esperando timeout para reenviar\n");
             }
-        }       
+        }
 
         /*  BLOQUE DE PROCESADO DE TIMEOUT  */
         if(timeouts_procesados != timeouts_vencidos){
-            printf("DEBUG: timeouts_procesados=%d, timeouts_vencidos=%d\n", 
-                timeouts_procesados, timeouts_vencidos);
-
-            timeouts_procesados++;
-            timeout_act = true;
-            
-            
-            
-                // En cada iteración se envían RCFTP_BUFLEN bytes (máximo) del buffer actual
-                
-                
-                // Verifica si se pudo obtener algún dato
-            do {
-                datosVentana = RCFTP_BUFLEN;
-                
-                // La función construye el mensaje y usa getdatatoresend,
-                // que recupera los datos y avanza el puntero de reenvío interno.
-                contruirMensajeMasViejoVentana(&mensaje, &datosVentana, msgRecibido);
-                
-                if (datosVentana > 0) {
-                    enviamensajeSW(socket,mensaje,remote,remotelen);
-                }
-            // El bucle para cuando getdatatoresend ya no tiene más datos que reenviar
-            // antes de que el puntero se reseteen (o cuando resetea y devuelve 0 bytes).
-            } while (datosVentana > 0);
-
-
-            
-
-            addtimeout(); // Programar el siguiente timeout
-        } 
-        
-            
-        
+		datosVentana = RCFTP_BUFLEN;
+            	contruirMensajeMasViejoVentana(&mensaje, &datosVentana, msgRecibido);
+            	enviamensajeSW(socket,mensaje,remote,remotelen);
+            	addtimeout();
+            	timeouts_procesados++;
+        }
     }
 }
 

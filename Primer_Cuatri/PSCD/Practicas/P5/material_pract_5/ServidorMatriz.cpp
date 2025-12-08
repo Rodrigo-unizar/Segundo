@@ -85,7 +85,7 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
 int main(int argc,char* argv[]) {
     const int N = 4;
     // Puerto donde escucha el proceso servidor
-    int SERVER_PORT = stoi(argv[1]); //normalmente será un parámetro de invocación. P.e.: argv[1]
+    int SERVER_PORT = (stoi(argv[1]) + 413); //normalmente será un parámetro de invocación. P.e.: argv[1]
     vector<thread> cliente;
     MultiBuffer<tarea,N_CONTROLLERS> mBT;
 

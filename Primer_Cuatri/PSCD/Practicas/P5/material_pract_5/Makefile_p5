@@ -1,12 +1,3 @@
-#*****************************************************************
-# File:   Makefile_p5
-# Author: PSCD-Unizar
-# Date:   noviembre 2023
-# Coms:   Ejemplo de Makefile para la práctica 5 de PSCD
-#         "make -f Makefile_p5" construye todos los ejecutables
-#         "make -f Makefile_p5 Cliente" construye "Cliente"
-#*****************************************************************
-
 CC=g++
 
 CLIENT=Cliente
@@ -15,51 +6,59 @@ MULTI_SERVER=ServidorMatriz
 EXTRA_SERVER=ServidorTareas
 SOCKET_DIR=Socket
 SOCKET=${SOCKET_DIR}/Socket
+MONITOR_MATRIZ=monitorMatriz
+MONITOR_TAREAS=monitor
 
-CPPFLAGS=-I. -I${SOCKET_DIR} -std=c++11 -lsockets
+CPPFLAGS=-I. -I${SOCKET_DIR} -std=c++11
 LDFLAGS=-pthread
 
 all: ${CLIENT} ${SERVER} ${MULTI_SERVER} ${EXTRA_SERVER}
 
-# Para compilar en hendrix descomentar la siguiente línea
-# SOCKETSFLAGS=-lsocket -lnsl
-
 # CLIENTE
 ${CLIENT}.o: ${CLIENT}.cpp
-    ${CC} -c ${CPPFLAGS} ${CLIENT}.cpp
+	${CC} -c ${CPPFLAGS} ${CLIENT}.cpp
 
 ${CLIENT}: ${SOCKET}.o ${CLIENT}.o
-    ${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENT}.o -o ${CLIENT} ${SOCKETSFLAGS}
+	${CC} ${LDFLAGS} ${SOCKET}.o ${CLIENT}.o -o ${CLIENT}
 
 # SERVIDOR (principal)
 ${SERVER}.o: ${SERVER}.cpp
-    ${CC} -c ${CPPFLAGS} ${SERVER}.cpp
+	${CC} -c ${CPPFLAGS} ${SERVER}.cpp
 
 ${SERVER}: ${SOCKET}.o ${SERVER}.o
-    ${CC} ${LDFLAGS} ${SOCKET}.o ${SERVER}.o -o ${SERVER} ${SOCKETSFLAGS}
+	${CC} ${LDFLAGS} ${SOCKET}.o ${SERVER}.o -o ${SERVER}
 
-# SERVIDOR MATRIZ (o variante multicliente)
+# SERVIDOR MATRIZ
 ${MULTI_SERVER}.o: ${MULTI_SERVER}.cpp
-    ${CC} -c ${CPPFLAGS} ${MULTI_SERVER}.cpp
+	${CC} -c ${CPPFLAGS} ${MULTI_SERVER}.cpp
 
-${MULTI_SERVER}: ${SOCKET}.o ${MULTI_SERVER}.o
-    ${CC} ${LDFLAGS} ${SOCKET}.o ${MULTI_SERVER}.o -o ${MULTI_SERVER} ${SOCKETSFLAGS}
+${MULTI_SERVER}: ${SOCKET}.o ${MONITOR_MATRIZ}.o ${MULTI_SERVER}.o
+	${CC} ${LDFLAGS} ${SOCKET}.o ${MONITOR_MATRIZ}.o ${MULTI_SERVER}.o -o ${MULTI_SERVER}
 
-# SERVIDOR TAREAS (otra variante)
+# SERVIDOR TAREAS
 ${EXTRA_SERVER}.o: ${EXTRA_SERVER}.cpp
-    ${CC} -c ${CPPFLAGS} ${EXTRA_SERVER}.cpp
+	${CC} -c ${CPPFLAGS} ${EXTRA_SERVER}.cpp
 
-${EXTRA_SERVER}: ${SOCKET}.o ${EXTRA_SERVER}.o
-    ${CC} ${LDFLAGS} ${SOCKET}.o ${EXTRA_SERVER}.o -o ${EXTRA_SERVER} ${SOCKETSFLAGS}
+${EXTRA_SERVER}: ${SOCKET}.o ${MONITOR_TAREAS}.o ${EXTRA_SERVER}.o
+	${CC} ${LDFLAGS} ${SOCKET}.o ${MONITOR_TAREAS}.o ${EXTRA_SERVER}.o -o ${EXTRA_SERVER}
 
 # SOCKETS
 ${SOCKET}.o: ${SOCKET}.hpp ${SOCKET}.cpp
-    ${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
+	${CC} -c ${CPPFLAGS} ${SOCKET}.cpp -o ${SOCKET}.o
+
+# MONITOR MATRIZ
+${MONITOR_MATRIZ}.o: ${MONITOR_MATRIZ}.hpp ${MONITOR_MATRIZ}.cpp
+	${CC} -c ${CPPFLAGS} ${MONITOR_MATRIZ}.cpp
+
+# MONITOR TAREAS
+${MONITOR_TAREAS}.o: ${MONITOR_TAREAS}.hpp ${MONITOR_TAREAS}.cpp
+	${CC} -c ${CPPFLAGS} ${MONITOR_TAREAS}.cpp
 
 # LIMPIEZA
 clean:
-    $(RM) ${SOCKET}.o
-    $(RM) ${CLIENT} ${CLIENT}.o
-    $(RM) ${SERVER} ${SERVER}.o
-    $(RM) ${MULTI_SERVER} ${MULTI_SERVER}.o
-    $(RM) ${EXTRA_SERVER} ${EXTRA_SERVER}.o
+	$(RM) ${SOCKET}.o
+	$(RM) ${MONITOR_MATRIZ}.o ${MONITOR_TAREAS}.o
+	$(RM) ${CLIENT} ${CLIENT}.o
+	$(RM) ${SERVER} ${SERVER}.o
+	$(RM) ${MULTI_SERVER} ${MULTI_SERVER}.o
+	$(RM) ${EXTRA_SERVER} ${EXTRA_SERVER}.o

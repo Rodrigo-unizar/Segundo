@@ -3,7 +3,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
-#include "librerias\MultiBuffer\MultiBuffer.hpp"
+#include "librerias/MultiBuffer/MultiBuffer.hpp"
 #include <string>
 #include <iomanip>
 #include <mutex>

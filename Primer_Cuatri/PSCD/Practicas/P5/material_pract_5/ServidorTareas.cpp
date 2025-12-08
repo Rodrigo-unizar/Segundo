@@ -16,7 +16,7 @@
 using namespace std;
 
 
-void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monitor& m) {
+void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m) {
     tarea T;
     bool asignada = false;
     ifstream f("tareas.txt");
@@ -30,7 +30,7 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monito
             getline(f, T.tipoTarea, ',');
             f >> T.cargaDeTrabajo;
             f.ignore();
-
+            cout << "Nueva tarea de tipo " + T.tipoTarea + " leída del fichero\n";
             m.asignarTarea(T);
         }
     }
@@ -47,7 +47,6 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, float matriz[3][3], monito
 //-------------------------------------------------------------
 void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
     string MENS_FIN = "END";
-    string buffer;
     string atask = "GET_TASK";
     // Buffer para recibir el mensaje
     int length = 100;
@@ -74,7 +73,7 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
         } else if (buffer == atask) {
             // Contamos las vocales recibidas en el mensaje anterior
             m.tomarTarea(id, T);
-
+            cout << "Enviando tarea de tipo " + T.tipoTarea + " a" + to_string(id) + "\n";
             // Enviamos la respuesta
             string s = T.tipoTarea + "," + to_string(T.cargaDeTrabajo);
 
@@ -99,20 +98,21 @@ int main(int argc,char* argv[]) {
 
     monitor m;
 
-    thread master(&masterTask, ref(mBT), ref(m));
-    master.join();
+    
 
     bool fin = false;
-
+    
     // Creación del socket con el que se llevará a cabo
     // la comunicación con el servidor.
     Socket chan(SERVER_PORT);
-
+    
     // bind
     int socket_fd = chan.Bind();
     if (socket_fd == -1) {
         cerr << chan.error("Error en el bind");
         exit(1);
+    }else {
+        cout << "Servidor escuchando en el puerto " + to_string(SERVER_PORT) + "\n";
     }
 
     //lisen
@@ -123,6 +123,8 @@ int main(int argc,char* argv[]) {
         chan.Close();
         exit(1);
     }
+    
+
     //para desbloquear servidor y terminar
     int j = 0;
     int i = 0;
@@ -148,6 +150,8 @@ int main(int argc,char* argv[]) {
         	}
         }
     }
+    thread master(&masterTask, ref(mBT), ref(m));
+    master.join();
 
     //¿Qué pasa si algún thread acaba inesperadamente?
     for (int i=0; i<cliente.size(); i++) {

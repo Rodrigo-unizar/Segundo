@@ -3,7 +3,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
-#include "librerias\MultiBuffer\MultiBuffer.hpp"
+#include "librerias/MultiBuffer/MultiBuffer.hpp"
 #include <string>
 #include <iomanip>
 #include <mutex>
@@ -19,7 +19,7 @@ struct tarea {
 
 struct monitor{
     public:
-        monitorM();
+        monitor();
         void mostrarMatriz(); 
         void escribirMatriz(tarea T, bool exito);
     private:
