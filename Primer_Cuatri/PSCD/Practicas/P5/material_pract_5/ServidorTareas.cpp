@@ -12,11 +12,12 @@
 #include <thread>
 #include <vector>
 #include "monitor.hpp"
+#include <mutex>
 
 using namespace std;
 
 
-void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m) {
+void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m, int &numFin, bool &fin, int SERVER_PORT) {
     tarea T;
     bool asignada = false;
     ifstream f("tareas.txt");
@@ -36,6 +37,15 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m) {
 
 
     m.asignarTareaFinal(TF);
+
+    while(numFin < N_CONTROLLERS){
+        this_thread::sleep_for(chrono::milliseconds(500));
+    }
+    fin = true;
+    Socket chan("localhost", SERVER_PORT);
+    int fdf = chan.Connect();
+    chan.Close();
+
 }
 
 
@@ -44,7 +54,7 @@ void masterTask(MultiBuffer<tarea, N_CONTROLLERS>& B, monitor& m) {
 // Y pone "fin" a true
 
 //-------------------------------------------------------------
-void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
+void servCliente(Socket& chan, int client_fd, monitor& m, int id, int &numfin, std::mutex& mtx) {
     string MENS_FIN = "END";
     string atask = "GET_TASK";
     // Buffer para recibir el mensaje
@@ -69,6 +79,10 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
         if (buffer == MENS_FIN) {
             out = true; // Salir del bucle
+            {   // sección crítica: incrementar numfin
+                std::lock_guard<std::mutex> lock(mtx);
+                numfin++;
+            }
         } else if (buffer == atask) {
             // Contamos las vocales recibidas en el mensaje anterior
             m.tomarTarea(id, T);
@@ -96,15 +110,15 @@ int main(int argc,char* argv[]) {
     MultiBuffer<tarea,N_CONTROLLERS> mBT;
 
     monitor m;
-
+    int numfin = 0;
     
-
+    std::mutex mtx;
     bool fin = false;
     
     // Creación del socket con el que se llevará a cabo
     // la comunicación con el servidor.
     Socket chan(SERVER_PORT);
-    thread master(&masterTask, ref(mBT), ref(m));
+    thread master(&masterTask, ref(mBT), ref(m), ref(numfin), ref(fin), SERVER_PORT);
     
     // bind
     int socket_fd = chan.Bind();
@@ -141,7 +155,7 @@ int main(int argc,char* argv[]) {
         } else {
         	if (!fin) {
                 //introducir en el vector el cliente y arrancar el thread
-        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j));
+        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j, ref(numfin), ref(mtx)));
         	    cout << "Nuevo cliente " + to_string(i) + " aceptado" + "\n";
                 j++;
         	}
@@ -155,13 +169,6 @@ int main(int argc,char* argv[]) {
     //¿Qué pasa si algún thread acaba inesperadamente?
     for (int i=0; i<cliente.size(); i++) {
         cliente[i].join();
-    }
-    cout << "Servidor matriz finalizando. Matriz final:\n";
-
-    // Cerramos el socket del servidor
-    error_code = chan.Close();
-    if (error_code == -1) {
-        cerr << chan.error("Error cerrando el socket del servidor");
     }
 
     // Despedida

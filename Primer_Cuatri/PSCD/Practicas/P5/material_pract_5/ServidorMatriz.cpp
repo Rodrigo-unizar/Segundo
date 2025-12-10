@@ -16,13 +16,25 @@
 using namespace std;
 
 
+void masterTask(int &numFin, bool &fin, int SERVER_PORT) {
 
+
+
+    while(numFin < N_CONTROLLERS){
+        this_thread::sleep_for(chrono::milliseconds(500));
+    }
+    fin = true;
+    Socket chan("localhost", SERVER_PORT);
+    int fdf = chan.Connect();
+    chan.Close();
+
+}
 //-------------------------------------------------------------
 // Espera "secs" segundos y se conecta. Usado para desbloquear un "accept"
 // Y pone "fin" a true
 
 //-------------------------------------------------------------
-void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
+void servCliente(Socket& chan, int client_fd, monitor& m, int id, int &numfin, std::mutex& mtx) {
     
     // Buffer para recibir el mensaje
     int length = 100;
@@ -52,6 +64,10 @@ void servCliente(Socket& chan, int client_fd, monitor& m, int id) {
         // Si recibimos "END OF SERVICE" --> Fin de la comunicación
         if (tarFin == T.tipoTarea) {
             out = true; // Salir del bucle
+            {   // sección crítica: incrementar numfin
+                std::lock_guard<std::mutex> lock(mtx);
+                numfin++;
+            }
         } else { 
             bool exito = true;
             
@@ -93,14 +109,16 @@ int main(int argc,char* argv[]) {
     MultiBuffer<tarea,N_CONTROLLERS> mBT;
 
     monitor m;
-
+    int numfin = 0;
+    
+    std::mutex mtx;
 
     bool fin = false;
 
     // Creación del socket con el que se llevará a cabo
     // la comunicación con el servidor.
     Socket chan(SERVER_PORT);
-
+    thread master(&masterTask,ref(numfin), ref(fin), SERVER_PORT);
     // bind
     int socket_fd = chan.Bind();
     if (socket_fd == -1) {
@@ -132,7 +150,7 @@ int main(int argc,char* argv[]) {
         } else {
         	if (!fin) {
                 //introducir en el vector el cliente y arrancar el thread
-        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j));
+        	    cliente.push_back(thread(&servCliente, ref(chan), new_client_fds, ref(m), j, ref(numfin), ref(mtx)));
         	    cout << "Nuevo cliente " + to_string(i) + " aceptado" + "\n";
                 j++;
         	}
@@ -148,12 +166,6 @@ int main(int argc,char* argv[]) {
     }
     cout << "Servidor matriz finalizando. Matriz final:\n";
     m.mostrarMatriz();
-
-    // Cerramos el socket del servidor
-    error_code = chan.Close();
-    if (error_code == -1) {
-        cerr << chan.error("Error cerrando el socket del servidor");
-    }
 
     // Despedida
     cout << "Bye bye" << endl;
