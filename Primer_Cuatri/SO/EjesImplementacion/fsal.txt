@@ -1,5 +1,14 @@
-Holaaksjdhkasjhdjkashkdjass
-asjdhkasjhdjka
-asjdhkasjdhkasjdhajksh
-ashdbjaskhgdkasjhdkjahdkja
-asdjashdgkasjhdkjashkjdas
+total 72
+-rw-rw-r-- 1 rodri rodri   778 dic  5 19:40 935413_pr1.c
+-rw-rw-r-- 1 rodri rodri  2080 dic  5 19:40 935413_pr2a.c
+-rw-rw-r-- 1 rodri rodri   823 dic  5 19:40 935413_pr2b.c
+-rw-rw-r-- 1 rodri rodri  2149 dic  5 19:41 935413_pr3.c
+-rw-rw-r-- 1 rodri rodri  2603 dic  5 19:41 935413_pr4.c
+-rw-rw-r-- 1 rodri rodri   559 dic  5 23:30 crador_poces.c
+-rwxrwxr-x 1 rodri rodri 16264 dic  5 22:35 crepro
+-rw-rw-r-- 1 rodri rodri  1369 dic  5 22:33 ejer4.c
+-rw-rw-r-- 1 rodri rodri   678 dic  5 23:55 ejer5.c
+-rw-rw-r-- 1 rodri rodri   941 dic  9 14:00 ejer6.c
+-rw-rw-r-- 1 rodri rodri   197 dic 10 12:05 ejer7.c
+-rw-rw-r-- 1 rodri rodri     0 dic 10 12:05 fsal.txt
+-rwxrwxr-x 1 rodri rodri 16056 dic 10 12:05 main
