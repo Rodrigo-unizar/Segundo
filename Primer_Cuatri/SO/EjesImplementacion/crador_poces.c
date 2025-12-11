@@ -1,3 +1,6 @@
+//este codigo crea 3 proceos + el padre sirve para comprobar el codigo del ejer4
+
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
