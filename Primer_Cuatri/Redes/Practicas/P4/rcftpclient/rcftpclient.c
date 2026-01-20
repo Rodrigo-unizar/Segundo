@@ -216,7 +216,7 @@ void initargs(int argc, char **argv, char *verb, int* alg, unsigned int* window,
 
 	// default values
 	*verb=0;
-	*window=2048;
+	*window=1000;
 	*ttrans=200000;
 	*timeout=1000000;
 	// error values
